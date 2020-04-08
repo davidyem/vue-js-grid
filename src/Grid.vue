@@ -1,5 +1,5 @@
 <template>
-  <div class="v-grid" :style="style">
+  <div class="v-grid" id="grid" :style="style">
     <GridItem v-for="v in list"
               :key="v.index"
               :index="v.index"
@@ -228,7 +228,7 @@ export default {
           }
 
           return item
-        })
+        });
 
         this.$emit('sort', this.wrapEvent())
       }

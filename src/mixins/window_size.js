@@ -6,21 +6,22 @@ export default {
     }
   },
   created () {
-    window.addEventListener('resize', this.getWindowSize)
-    this.getWindowSize()
+    window.addEventListener('resize', this.getWindowSize);
+    this.getWindowSize();
   },
   mounted () {
-    this.getWindowSize()
+    this.getWindowSize();
   },
   beforeDestroy () {
-    window.removeEventListener('resize', this.getWindowSize)
+    window.removeEventListener('resize', this.getWindowSize);
   },
 
   methods: {
     getWindowSize () {
+      const container = document.getElementById('grid').offsetWidth;
       if (this.$el) {
-        this.windowHeight = this.$el.clientHeight
-        this.windowWidth = this.$el.clientWidth
+        this.windowHeight = this.$el.clientHeight;
+        container < this.$el.clientWidth ?  this.windowWidth = container : this.windowWidth = this.$el.clientWidth;
       }
     }
   }

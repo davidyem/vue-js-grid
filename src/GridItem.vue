@@ -4,7 +4,7 @@
        :style="style"
        @mousedown="mousedown"
        @touchstart.stop="mousedown">
-    <slot/>
+    <slot name="cell"></slot>
   </div>
 </template>
 

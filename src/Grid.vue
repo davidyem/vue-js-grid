@@ -15,12 +15,12 @@
               @dragend="onDragEnd"
               @drag="onDrag"
               @click="click">
-      <slot name="cell"
+      <template v-slot:cell
             :item="v.item"
             :index="v.index"
             :sort="v.sort"
             :remove="() => { removeItem(v) }">
-      </slot>
+      </template>
     </GridItem>
   </div>
 </template>

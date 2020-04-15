@@ -1,6 +1,8 @@
 <template>
   <div class="v-grid" id="grid" :style="style">
-    <slot name="addFile"></slot>
+    <div>
+      <slot name="addFile"></slot>
+    </div>
     <GridItem v-for="v in list"
               :key="v.index"
               :index="v.index"

@@ -1,7 +1,7 @@
 <template>
   <div class="v-grid" id="grid" :style="style">
     <div>
-      <slot name="add"></slot>
+      <slot name="add"/>
     </div>
     <GridItem v-for="v in list"
               :key="v.index"

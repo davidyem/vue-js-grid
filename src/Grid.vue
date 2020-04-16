@@ -1,8 +1,6 @@
 <template>
   <div class="v-grid" id="grid" :style="style">
-    <div>
-      <slot name="add"/>
-    </div>
+    <slot name="add"/>
     <GridItem v-for="v in list"
               :key="v.index"
               :index="v.index"
@@ -18,12 +16,12 @@
               @dragend="onDragEnd"
               @drag="onDrag"
               @click="click">
-      <template v-slot:cell
+      <slot name="cell"
             :item="v.item"
             :index="v.index"
             :sort="v.sort"
             :remove="() => { removeItem(v) }">
-      </template>
+      </slot>
     </GridItem>
   </div>
 </template>
@@ -116,15 +114,15 @@ export default {
 
     rowShift () {
       if (this.center) {
-        let contentWidth = this.list.length * this.cellWidth
+        let contentWidth = this.list.length * this.cellWidth;
         let rowShift = contentWidth < this.gridResponsiveWidth
           ? (this.gridResponsiveWidth - contentWidth) / 2
-          : (this.gridResponsiveWidth % this.cellWidth) / 2
+          : (this.gridResponsiveWidth % this.cellWidth) / 2;
 
         return Math.floor(rowShift)
       }
 
-      return 0
+      return 0;
     }
   },
   methods: {
@@ -149,8 +147,8 @@ export default {
     },
 
     removeItem ({ index }) {
-      let removeItem = this.list.find(v => v.index === index)
-      let removeItemSort = removeItem.sort
+      let removeItem = this.list.find(v => v.index === index);
+      let removeItemSort = removeItem.sort;
 
       this.list = this.list
         .filter(v => {
@@ -159,10 +157,10 @@ export default {
         .map(v => {
           let sort = v.sort > removeItemSort
             ? (v.sort - 1)
-            : v.sort
+            : v.sort;
 
           return { ...v, sort }
-        })
+        });
 
       this.$emit('remove', this.wrapEvent({ index }))
     },
@@ -188,18 +186,18 @@ export default {
     },
 
     sortList (itemIndex, gridPosition) {
-      let targetItem = this.list.find(item => item.index === itemIndex)
-      let targetItemSort = targetItem.sort
+      let targetItem = this.list.find(item => item.index === itemIndex);
+      let targetItemSort = targetItem.sort;
 
       /*
         Normalizing new grid position
       */
-      gridPosition = Math.max(gridPosition, 0)
+      gridPosition = Math.max(gridPosition, 0);
       /*
         If you remove this line you can drag items to positions that
         are further than items array length
       */
-      gridPosition = Math.min(gridPosition, this.list.length - 1)
+      gridPosition = Math.min(gridPosition, this.list.length - 1);
 
       if (targetItemSort !== gridPosition) {
         this.list = this.list.map(item => {
@@ -210,7 +208,7 @@ export default {
             }
           }
 
-          const { sort } = item
+          const { sort } = item;
 
           if (targetItemSort > gridPosition) {
             if (sort <= targetItemSort && sort >= gridPosition) {

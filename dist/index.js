@@ -499,7 +499,10 @@
             },
             methods: {
                 getWindowSize: function() {
-                    this.$el && (this.windowHeight = this.$el.clientHeight, this.windowWidth = this.$el.clientWidth);
+                    if (this.$el) {
+                        var container = window.document.getElementById("grid").offsetWidth;
+                        this.windowHeight = this.$el.clientHeight, container < this.$el.clientWidth ? this.windowWidth = container : this.windowWidth = this.$el.clientWidth;
+                    }
                 }
             }
         };
@@ -517,8 +520,11 @@
                 var _vm = this, _h = _vm.$createElement, _c = _vm._self._c || _h;
                 return _c("div", {
                     staticClass: "v-grid",
-                    style: _vm.style
-                }, _vm._l(_vm.list, function(v) {
+                    style: _vm.style,
+                    attrs: {
+                        id: "grid"
+                    }
+                }, [ _vm._t("add"), _vm._v(" "), _vm._l(_vm.list, function(v) {
                     return _c("GridItem", {
                         key: v.index,
                         attrs: {
@@ -546,7 +552,7 @@
                             _vm.removeItem(v);
                         }
                     }) ], 2);
-                }));
+                }) ], 2);
             },
             staticRenderFns: []
         };

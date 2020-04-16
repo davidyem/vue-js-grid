@@ -15,11 +15,10 @@ export default {
   beforeDestroy () {
     window.removeEventListener('resize', this.getWindowSize);
   },
-
   methods: {
     getWindowSize () {
-      const container = document.getElementById('grid').offsetWidth;
       if (this.$el) {
+        const container = window.document.getElementById('grid').offsetWidth;
         this.windowHeight = this.$el.clientHeight;
         container < this.$el.clientWidth ?  this.windowWidth = container : this.windowWidth = this.$el.clientWidth;
       }

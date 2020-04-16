@@ -4,12 +4,12 @@
        :style="style"
        @mousedown="mousedown"
        @touchstart.stop="mousedown">
-    <slot name="cell"/>
+    <slot/>
   </div>
 </template>
 
 <script>
-const CLICK_PIXEL_DISTANCE = 4
+const CLICK_PIXEL_DISTANCE = 4;
 
 export default {
   name: 'GridItem',
@@ -66,11 +66,11 @@ export default {
         if (!this.dragging) {
           this.zIndex = 1
         }
-      }, false)
+      }, false);
   },
   computed: {
     className () {
-      let { animate, dragging } = this
+      let { animate, dragging } = this;
 
       return [
         'v-grid-item-wrapper',
@@ -81,7 +81,7 @@ export default {
       ]
     },
     style () {
-      let { zIndex, cellWidth, cellHeight, top, left } = this
+      let { zIndex, cellWidth, cellHeight, top, left } = this;
 
       return {
         zIndex,
@@ -105,46 +105,46 @@ export default {
   },
   methods: {
     wrapEvent (event) {
-      let { index, sort } = this
+      let { index, sort } = this;
       return { event, index, sort }
     },
 
     dragStart (event) {
-      let e = event.touches ? event.touches[0] : event
+      let e = event.touches ? event.touches[0] : event;
 
-      this.zIndex = 2
+      this.zIndex = 2;
 
-      this.shiftX = this.shiftStartX = this.left
-      this.shiftY = this.shiftStartY = this.top
+      this.shiftX = this.shiftStartX = this.left;
+      this.shiftY = this.shiftStartY = this.top;
 
-      this.mouseMoveStartX = e.pageX
-      this.mouseMoveStartY = e.pageY
+      this.mouseMoveStartX = e.pageX;
+      this.mouseMoveStartY = e.pageY;
 
-      this.animate = false
-      this.dragging = true
+      this.animate = false;
+      this.dragging = true;
 
-      document.addEventListener('mousemove', this.documentMouseMove)
-      document.addEventListener('touchmove', this.documentMouseMove)
+      document.addEventListener('mousemove', this.documentMouseMove);
+      document.addEventListener('touchmove', this.documentMouseMove);
 
       this.$emit('dragstart', this.wrapEvent(event))
     },
 
     drag (event) {
-      let e = event.touches ? event.touches[0] : event
+      let e = event.touches ? event.touches[0] : event;
 
-      let distanceX = e.pageX - this.mouseMoveStartX
-      let distanceY = e.pageY - this.mouseMoveStartY
+      let distanceX = e.pageX - this.mouseMoveStartX;
+      let distanceY = e.pageY - this.mouseMoveStartY;
 
-      this.shiftX = distanceX + this.shiftStartX
-      this.shiftY = distanceY + this.shiftStartY
+      this.shiftX = distanceX + this.shiftStartX;
+      this.shiftY = distanceY + this.shiftStartY;
 
-      let gridX = Math.round(this.shiftX / this.cellWidth)
-      let gridY = Math.round(this.shiftY / this.cellHeight)
+      let gridX = Math.round(this.shiftX / this.cellWidth);
+      let gridY = Math.round(this.shiftY / this.cellHeight);
 
-      gridX = Math.min(gridX, this.rowCount - 1)
-      gridY = Math.max(gridY, 0)
+      gridX = Math.min(gridX, this.rowCount - 1);
+      gridY = Math.max(gridY, 0);
 
-      let gridPosition = gridX + gridY * this.rowCount
+      let gridPosition = gridX + gridY * this.rowCount;
 
       const $event = {
         event,
@@ -156,7 +156,7 @@ export default {
         gridX,
         gridY,
         gridPosition
-      }
+      };
 
       this.$emit('drag', $event)
     },
@@ -165,10 +165,10 @@ export default {
       if (this.draggable) {
         this.timer = setTimeout(() => {
           this.dragStart(event)
-        }, this.dragDelay)
+        }, this.dragDelay);
 
-        document.addEventListener('mouseup', this.documentMouseUp)
-        document.addEventListener('touchend', this.documentMouseUp)
+        document.addEventListener('mouseup', this.documentMouseUp);
+        document.addEventListener('touchend', this.documentMouseUp);
       }
     },
 
@@ -180,29 +180,29 @@ export default {
 
     documentMouseUp (event) {
       if (this.timer) {
-        clearTimeout(this.timer)
-        this.timer = null
+        clearTimeout(this.timer);
+        this.timer = null;
       }
 
-      let dx = this.shiftStartX - this.shiftX
-      let dy = this.shiftStartY - this.shiftY
+      let dx = this.shiftStartX - this.shiftX;
+      let dy = this.shiftStartY - this.shiftY;
 
-      let distance = Math.sqrt(dx * dx + dy * dy)
+      let distance = Math.sqrt(dx * dx + dy * dy);
 
-      this.animate = true
-      this.dragging = false
-      this.mouseMoveStartX = 0
-      this.mouseMoveStartY = 0
-      this.shiftStartX = 0
-      this.shiftStartY = 0
+      this.animate = true;
+      this.dragging = false;
+      this.mouseMoveStartX = 0;
+      this.mouseMoveStartY = 0;
+      this.shiftStartX = 0;
+      this.shiftStartY = 0;
 
-      document.removeEventListener('mousemove', this.documentMouseMove)
-      document.removeEventListener('touchmove', this.documentMouseMove)
+      document.removeEventListener('mousemove', this.documentMouseMove);
+      document.removeEventListener('touchmove', this.documentMouseMove);
 
-      document.removeEventListener('mouseup', this.documentMouseUp)
-      document.removeEventListener('touchend', this.documentMouseUp)
+      document.removeEventListener('mouseup', this.documentMouseUp);
+      document.removeEventListener('touchend', this.documentMouseUp);
 
-      let $event = this.wrapEvent(event)
+      let $event = this.wrapEvent(event);
 
       if (distance < CLICK_PIXEL_DISTANCE) {
         this.$emit('click', $event)
